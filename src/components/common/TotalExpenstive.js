@@ -1,10 +1,8 @@
 import { StyleSheet, Text, View } from "react-native"
 import { LinearGradient } from 'expo-linear-gradient'
-import { useContext } from "react"
-import { ExpensesContext } from "../../redux/store"
-
+import { useSelector } from 'react-redux'
 const TotalExpenstive = () => {
-    const { expenses } = useContext(ExpensesContext)
+    const expenses = useSelector(state => state.expenses).expenses;
     const sum = Math.round(expenses.reduce((accumulator, item) => {
         return accumulator +parseFloat(item.amount);
     }, 0)*100)/100

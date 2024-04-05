@@ -2,10 +2,10 @@ import { useNavigation, useRoute } from "@react-navigation/native"
 import { View, Text, TextInput, StyleSheet, Pressable, ScrollView } from "react-native"
 import NavLayout from "../layout/Navlayout";
 import { formatDate } from "../utils/formatDate";
-import { useContext, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { ExpensesContext } from "../redux/store";
-
+import { useDispatch } from 'react-redux';
+import { useState } from "react";
+import { updateExpense } from "../redux/reducer/expenseReducer";
 const EditScreen = () => {
     const expense = useRoute().params.expense;
     const navigate = useNavigation()
@@ -13,9 +13,8 @@ const EditScreen = () => {
     const [description, setDescription] = useState(expense.description);
     const [amount, setAmount] = useState(expense.amount);
     const [date, setDate] = useState(convertDate(expense.date));
+    const dispatch = useDispatch()
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
-
-    const { updateExpense } = useContext(ExpensesContext)
 
     const handleCancel = () => {
         navigate.goBack()
@@ -29,7 +28,7 @@ const EditScreen = () => {
             date: convertFromString(date)
         }
         if (description != null && (amount != null && !isNaN(amount)) && dateRegex.test(date)) {
-            updateExpense(id, expenseData)
+            dispatch(updateExpense({id: id,data: expenseData}))
             alert("Update success")
             navigate.goBack()
         } else {

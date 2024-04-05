@@ -2,11 +2,13 @@ import { useNavigation } from "@react-navigation/native"
 import { View, Text, TextInput, StyleSheet, Pressable, ScrollView } from "react-native"
 import NavLayout from "../layout/Navlayout";
 import { formatDate } from "../utils/formatDate";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { ExpensesContext } from "../redux/store";
+import { useDispatch } from 'react-redux';
+import { addExpense } from "../redux/reducer/expenseReducer";
 const AddScreen = () => {
     const navigate = useNavigation()
+    const dispatch = useDispatch()
     const { convertDate, convertFromString } = formatDate();
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
@@ -14,7 +16,7 @@ const AddScreen = () => {
 
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
 
-    const { addExpense } = useContext(ExpensesContext)
+    
     const handleCancel = () => {
         navigate.goBack()
     };
@@ -26,9 +28,9 @@ const AddScreen = () => {
                 amount: amount,
                 date: convertFromString(date)
             }
-            addExpense(expenseData)
-            alert("CREATE SUCCESS SUCCESS")
-            navigate.goBack()
+            dispatch(addExpense(expenseData))
+            alert("CREATE SUCCESS")
+            navigate.goBack(expenseData)
         } else {
             alert("Invalid input!!!")
         }

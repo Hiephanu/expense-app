@@ -1,75 +1,58 @@
 import { View, Text, StyleSheet, ScrollView,Pressable } from "react-native"
 import MainLayout from "../layout/MainLayout"
-import { useContext,useEffect,useState } from "react"
-import { ExpensesContext } from "../redux/store"
+import { useEffect,useState } from "react"
 import { FontAwesome6 } from '@expo/vector-icons'
+import { useSelector } from 'react-redux'
 import ExpensiveItem from "../components/home/ExpensiveItem"
 import { useNavigation } from "@react-navigation/native"
 
 const MainScreen = () => {
-    const expenseAll = useContext(ExpensesContext).expenses
+    const expenseAll = useSelector(state => state.expenses);
 
-    const [status, setStatus] = useState(true)
-    const [expenseShow, setExpenseShow] = useState([])
-    const navigate = useNavigation()
-    
+    const navigate = useNavigation();
 
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
-    const expenseRecent = expenseAll.filter(expense => {
-        return expense.date >= oneWeekAgo;
-    })
+    const expenseRecent = expenseAll.expenses.filter(expense => expense.date >= oneWeekAgo);
 
-    const allExpenseHandle = ()=>{
-        setStatus(true)
-    }
-    const recentExpenseHanle = ()=>{
-        setStatus(false)
-    }
+    const [status, setStatus] = useState(true);
 
-    useEffect(()=>{
-        if(status){
-            setExpenseShow(expenseAll)
-        } else {
-            setExpenseShow(expenseRecent)
-        }
-    },[status])
+    const allExpenseHandle = () => {
+        setStatus(true);
+    };
+
+    const recentExpenseHandle = () => {
+        setStatus(false);
+    };
+
+    const expenseToShow = status ? expenseAll.expenses : expenseRecent;
+    console.log("show", expenseToShow);
+
     return (
-
         <MainLayout>
             <View style={styles.navBar}>
-                <Text style={styles.title}>
-                    Transactions
-                </Text>
+                <Text style={styles.title}>Transactions</Text>
                 <View style={styles.nav}>
-                    <Pressable onPress={() => allExpenseHandle()}>
-                        <Text style={status ? styles.active : styles.normal}>
-                            All
-                        </Text>
+                    <Pressable onPress={allExpenseHandle}>
+                        <Text style={status ? styles.active : styles.normal}>All</Text>
                     </Pressable>
-                    <Pressable onPress={() => recentExpenseHanle()}>
-                        <Text style={status ? styles.normal : styles.active}>
-                            Recent
-                        </Text>
+                    <Pressable onPress={recentExpenseHandle}>
+                        <Text style={status ? styles.normal : styles.active}>Recent</Text>
                     </Pressable>
                 </View>
                 <Pressable onPress={() => navigate.navigate("Add")}>
-                    <View>
-                        <FontAwesome6 name="add" size={24} color="black" />
-                    </View>
+                    <FontAwesome6 name="add" size={24} color="black" />
                 </Pressable>
             </View>
             <ScrollView>
-                {
-                    expenseShow.map(expense => (
-                        <ExpensiveItem key={expense.id} expensive={expense} />
-                    ))
-                }
+                {expenseToShow.map((expense,index) => (
+                    <ExpensiveItem key={index} expensive={expense} />
+                ))}
             </ScrollView>
         </MainLayout>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     navBar: {

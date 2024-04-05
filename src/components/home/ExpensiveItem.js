@@ -7,6 +7,7 @@ const ExpensiveItem = ({ expensive }) => {
     const navigate = useNavigation()
     const RouteToEdit = () => {
         navigate.navigate('Edit', { expense: expensive })
+        console.log(expensive);
     }
     return (
         <Pressable onPress={RouteToEdit}>

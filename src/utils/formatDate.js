@@ -4,7 +4,7 @@ const convertDate = (date) => {
     const year = date.getFullYear();
 
     const textDate = `${day}-${month}-${year} `
-    return textDate
+    return textDate.trim()
 }
 const convertFromString = (dateString) => {
     if (dateString) {
