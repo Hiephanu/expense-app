@@ -11,7 +11,6 @@ const MainLayout = ({ children }) => {
         screen: height,
     });
 
-    console.log(width, height);
 
     useEffect(() => {
         const subscription = Dimensions.addEventListener(

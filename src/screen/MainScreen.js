@@ -27,7 +27,6 @@ const MainScreen = () => {
     };
 
     const expenseToShow = status ? expenseAll.expenses : expenseRecent;
-    console.log("show", expenseToShow);
 
     return (
         <MainLayout>

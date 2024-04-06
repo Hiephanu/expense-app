@@ -9,7 +9,7 @@ import { addExpense } from "../redux/reducer/expenseReducer";
 const AddScreen = () => {
     const navigate = useNavigation()
     const dispatch = useDispatch()
-    const { convertDate, convertFromString } = formatDate();
+    const { convertDate, convertFromString,isValidDate } = formatDate();
     const [description, setDescription] = useState("");
     const [amount, setAmount] = useState("");
     const [date, setDate] = useState("");
@@ -22,7 +22,7 @@ const AddScreen = () => {
     };
 
     const handleAdd = () => {
-        if (description != null && (amount != null && !isNaN(amount)) && dateRegex.test(date)) {
+        if (description != null && (amount != null && !isNaN(amount)) && (dateRegex.test(date) && isValidDate(date))) {
             const expenseData = {
                 description: description,
                 amount: amount,

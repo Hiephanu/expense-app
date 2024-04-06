@@ -18,9 +18,39 @@ const convertFromString = (dateString) => {
     }
 
 }
+const isValidDate = (dateString) => {
+    var parts = dateString.split("-");
+    var day = parseInt(parts[0], 10);
+    var month = parseInt(parts[1], 10);
+    var year = parseInt(parts[2], 10);
+
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+        return false;
+    }
+    if (month < 1 || month > 12) {
+        return false;
+    }
+    if (day < 1 || day > 31) {
+        return false;
+    }
+    if (month == 2) {
+        if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
+            if (day > 29) {
+                return false;
+            }
+        } else {
+            if (day > 28) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
 export function formatDate() {
     return {
         convertDate,
-        convertFromString
+        convertFromString,
+        isValidDate
     }
 }

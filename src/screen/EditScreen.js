@@ -9,7 +9,7 @@ import { updateExpense } from "../redux/reducer/expenseReducer";
 const EditScreen = () => {
     const expense = useRoute().params.expense;
     const navigate = useNavigation()
-    const { convertDate, convertFromString } = formatDate();
+    const { convertDate, convertFromString,isValidDate } = formatDate();
     const [description, setDescription] = useState(expense.description);
     const [amount, setAmount] = useState(expense.amount);
     const [date, setDate] = useState(convertDate(expense.date));
@@ -27,7 +27,7 @@ const EditScreen = () => {
             amount: amount,
             date: convertFromString(date)
         }
-        if (description != null && (amount != null && !isNaN(amount)) && dateRegex.test(date)) {
+        if (description != null && (amount != null && !isNaN(amount)) && (dateRegex.test(date) && isValidDate(date))) {
             dispatch(updateExpense({id: id,data: expenseData}))
             alert("Update success")
             navigate.goBack()
