@@ -27,12 +27,17 @@ const EditScreen = () => {
             amount: amount,
             date: convertFromString(date)
         }
+        if(description == null && amount == null && date == null){
+            alert("Input can't be null!")
+        } else if(!dateRegex.test(date)){
+            alert("Please input date with format dd-mm-yyyy")
+        } else if(!isValidDate(date)){
+            alert("Invalid date or input over now date !")
+        }
         if (description != null && (amount != null && !isNaN(amount)) && (dateRegex.test(date) && isValidDate(date))) {
             dispatch(updateExpense({id: id,data: expenseData}))
             alert("Update success")
             navigate.goBack()
-        } else {
-            alert("Invalid input")
         }
     };
 

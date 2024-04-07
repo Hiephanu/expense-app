@@ -45,6 +45,11 @@ const isValidDate = (dateString) => {
         }
     }
 
+    const nowDate =new Date( Date.now())
+    if(convertFromString(dateString) + 1 > nowDate){
+        return false;
+    }
+
     return true;
 }
 export function formatDate() {

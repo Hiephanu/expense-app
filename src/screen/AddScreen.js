@@ -22,6 +22,13 @@ const AddScreen = () => {
     };
 
     const handleAdd = () => {
+        if(description == null && amount == null && date == null){
+            alert("Input can't be null!")
+        } else if(!dateRegex.test(date)){
+            alert("Please input date with format dd-mm-yyyy")
+        } else if(!isValidDate(date)){
+            alert("Invalid date or input over now date !")
+        }
         if (description != null && (amount != null && !isNaN(amount)) && (dateRegex.test(date) && isValidDate(date))) {
             const expenseData = {
                 description: description,
@@ -29,10 +36,8 @@ const AddScreen = () => {
                 date: convertFromString(date)
             }
             dispatch(addExpense(expenseData))
-            alert("CREATE SUCCESS")
+            alert("Create expense success!")
             navigate.goBack(expenseData)
-        } else {
-            alert("Invalid input!!!")
         }
     };
 
