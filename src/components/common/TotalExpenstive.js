@@ -11,7 +11,7 @@ const TotalExpenstive = () => {
             end={{ x: 1, y: 1 }} style={styles.totalExpensive}>
             <View style={styles.totalExpensive}>
                 <Text style={styles.title}>
-                    Total Expenseive
+                    Total Expenses
                 </Text>
                 <Text style={styles.total}>
                     {sum} $
