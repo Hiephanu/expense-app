@@ -59,7 +59,7 @@ const EditScreen = () => {
                         Amount
                     </Text>
                     <TextInput
-                        value={parseInt(amount)}
+                        value={amount.toString()}
                         onChangeText={setAmount}
                         style={styles.textInput}
                     />
